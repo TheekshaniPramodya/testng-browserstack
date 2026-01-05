@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.browserstack</groupId>
@@ -7,15 +8,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>testng-browserstack</name>
-    <url>https://www.github.com/browserstack/testng-browserstack</url>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <testng.version>7.9.0</testng.version>
-        <surefire.version>3.1.2</surefire.version>
         <selenium.version>4.16.1</selenium.version>
         <config.file>config/sample-test.testng.xml</config.file>
     </properties>
@@ -51,6 +48,21 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>getClasspathFilenames</id>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -67,39 +79,10 @@
 
     <profiles>
         <profile>
-            <id>sample-local-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>config/sample-local-test.testng.xml</suiteXmlFile>
-                            </suiteXmlFiles>
-                            <argLine>"-javaagent:${com.browserstack:browserstack-java-sdk:jar}"</argLine>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
             <id>sample-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>config/sample-test.testng.xml</suiteXmlFile>
-                            </suiteXmlFiles>
-                            <argLine>"-javaagent:${com.browserstack:browserstack-java-sdk:jar}"</argLine>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
+            <properties>
+                <config.file>config/sample-test.testng.xml</config.file>
+            </properties>
         </profile>
     </profiles>
 </project>
